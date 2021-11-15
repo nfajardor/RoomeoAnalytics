@@ -7,11 +7,11 @@ import json
 # Use a service account
 cred = credentials.Certificate('roomeo-6acbb-3dff41e45b38.json')
 
+firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
 name = []
-maxCap = []
 currentCap = []
 occupation = []
 
@@ -21,18 +21,13 @@ for doc in docs:
     number = 0
     d = doc.to_dict()
     name.append(d['Name'])
-    maxCap.append(d['Capacity'])
     for classrooms in d['classrooms']:
         n = classrooms['currentCap']
         number = number + n
-    currentCap.append(number)
+    percent = (number/d['Capacity'])*100
+    occupation.append(percent)
 
-
-print(name)
-print(maxCap)
-print(currentCap)
-
-plt.bar(name,currentCap)
+plt.bar(name,occupation)
 plt.title('Porcentaje de ocupación por edificios')
 plt.xlabel('Edifios')
 plt.ylabel('% de ocupación')
