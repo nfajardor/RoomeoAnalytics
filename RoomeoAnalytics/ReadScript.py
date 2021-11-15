@@ -32,3 +32,8 @@ plt.title('Porcentaje de ocupación por edificios')
 plt.xlabel('Edifios')
 plt.ylabel('% de ocupación')
 plt.show()
+
+docAverageHW = db.collection('analytics').get()
+for doc in docAverageHW:
+    d = doc.to_dict()
+    print("El promedio de lavado de manos es de" + str(d['average']) + " para " + str(d['ammount']) +" reportes")
